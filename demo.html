@@ -1,0 +1,78 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Validated form</h1>
+
+    <form action="" id="validated-form" onSubmit="return false;">
+      <div class="field-group">
+        <label for="first-name"></label>
+        <input type="text" data-validate-type="string" placeholder="first name" class="js-first-name" id="first-name">
+      </div>
+
+      <div class="field-group">
+        <label for="email"></label>
+        <input type="text" data-validate-type="email" placeholder="email" class="js-email" id="email">
+      </div>
+
+      <div class="field-group">
+        <label for="password"></label>
+        <input type="password" data-validate-type="password" placeholder="password" class="js-password" id="password">
+      </div>
+
+      <div class="field-group">
+        <input type="submit" value="Submit!">
+      </div>
+    </form>
+
+    <script>
+      var InputValidator = function(selector, type) {
+        this.element = document.querySelector(selector);
+        this.type = this.element.getAttribute('data-validate-type');
+      }
+
+      InputValidator.prototype.validate = function() {
+
+        var that = this;
+
+        console.log(that.type);
+        switch (that.type) {
+          case "string":
+            // ensure only letters are in the string
+            return true;
+            break;
+          case "password":
+            // Password rules
+            // minimum length : 6
+            // at least 1 uppercase character
+            // must contain letters and numbers
+            return true;
+            break;
+          case "email":
+            var re = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+            return re.test(that.element.value);
+            break;
+          default:
+            return true;
+        }
+      }
+
+      function validate() {
+        var firstNameValidator = new InputValidator('.js-first-name');
+        console.log(firstNameValidator.validate());
+
+        var passwordValidator = new InputValidator('.js-password');
+        console.log(passwordValidator.validate());
+
+        var emailValidator = new InputValidator('.js-email');
+        console.log(emailValidator.validate());
+      }
+
+      var form = document.getElementById('validated-form');
+      form.addEventListener('submit', function() {
+        validate();
+      })
+
+    </script>
+  </body>
+</html>
